@@ -35,6 +35,7 @@ beforeEach(() => {
 
 test('(1 pt) status: get(sid)', (done) => {
   status.get('sid', (e, v) => {
+    console.log(e);
     expect(e).toBeFalsy();
     expect(v).toBe(id.getSID(node));
     done();

@@ -15,5 +15,7 @@ module.exports = distribution;
 if (require.main === module) {
   distribution.node.start(() => {
     /* Code that runs after your node has booted */
+    //distribution.local.status.get('sid', console.log);
+    //distribution.local.status
   });
 }
