@@ -137,6 +137,7 @@ test('(5 pts) comm: status.get()', (done) => {
 
   distribution.node.start((server) => {
     comm.send(message, remote, (e, v) => {
+      //console.log('new server address is : '+distribution.util.serialize(server));
       server.close();
       expect(e).toBeFalsy();
       expect(v).toBe(id.getNID(node));
