@@ -1,5 +1,12 @@
-function createRPC(func) {
-  // Write some code...
+const id = require('./id');
+
+function createRPC(func){
+  let funcHash = id.getID(func);
+  distribution.local.rpcResolver[funcHash] = func;
+  return function(...args) {
+    let remote = { node: global.config, service: 'rpcResolver', method: funcHash };
+    distribution.local.comm.send(args, remote, args.pop() || console.log);
+  }
 }
 
 /*

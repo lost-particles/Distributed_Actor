@@ -30,7 +30,7 @@ const start = function(started) {
 
     req.on('end', () => {
       reqObj = serialization.deserialize(reqData);
-      console.log("request received is : "+ reqObj);
+      console.log("request received is : "+ reqData);
 
       distribution.local.routes.get(reqObj.remote.service, (e, service)=>{
         if(e){
@@ -38,6 +38,11 @@ const start = function(started) {
         }else {
           reqObj.message.push(serviceCallback);
           Reflect.apply(service[reqObj.remote.method], service, reqObj.message);
+          // if(reqData.indexOf('rpc')){
+          //   Reflect.apply(service, null, reqObj.message);
+          // }else{
+          //   Reflect.apply(service[reqObj.remote.method], service, reqObj.message);
+          // }
         }
       });
 

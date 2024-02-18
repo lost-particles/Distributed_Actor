@@ -8,7 +8,7 @@ let status;
 let id;
 let node;
 
-let lastPort = 8080;
+let lastPort = 8095;
 
 beforeEach(() => {
   jest.resetModules();
@@ -163,6 +163,8 @@ test('(5 pts) RPC', (done) => {
   distribution.node.start((server) => {
     routes.put(rpcService, 'rpcService', (e, v) => {
       routes.get('rpcService', (e, s) => {
+        console.log("error is : "+e.toString());
+        console.log("service is : "+ distribution.util.serialize(s))
         expect(e).toBeFalsy();
         s.addOneRPC((e, v) => {
           s.addOneRPC((e, v) => {

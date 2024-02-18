@@ -39,9 +39,9 @@ const status = {
 const routes = {
   route_map : {},
 
-  get(method_name, cb=console.log){
+  get(service_name, cb=console.log){
     try {
-      cb(false, this.route_map[method_name]);
+      cb(false, this.route_map[service_name]);
     }catch (e) {
       cb(e);
     }
@@ -60,7 +60,9 @@ const comm = {
 
   send(message, remote, cb=console.log){
     try{
-
+      if(!(message instanceof Array)){
+        message = [message];
+      }
       const putData = serialization.serialize({'remote':remote, 'message':message});
 
       const options = {
@@ -79,7 +81,7 @@ const comm = {
       const req = http.request(options, (res) => {
 
         let resData = '';
-        res.setEncoding('utf8');
+        //res.setEncoding('utf8');
         res.on('data', (chunk) => {
           resData = resData + chunk;
         });
@@ -103,12 +105,22 @@ const comm = {
 
 };
 
+
+const rpcService = {
+};
+
+const rpcResolver = {};
+
 routes.put(status, 'status');
 routes.put(routes, 'routes');
 routes.put(comm, 'comm');
+routes.put(rpcService, 'rpcService')
+routes.put(rpcResolver, 'rpcResolver');
 
 module.exports = {
   status: status,
   routes: routes,
   comm: comm,
+  rpcService: rpcService,
+  rpcResolver: rpcResolver,
 };

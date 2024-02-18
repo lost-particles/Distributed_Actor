@@ -13,17 +13,51 @@ module.exports = distribution;
 
 /* The following code is run when distribution.js is run directly */
 if (require.main === module) {
-  distribution.node.start(() => {
+  distribution.node.start((server) => {
     /* Code that runs after your node has booted */
     //distribution.local.status.get('sid', console.log);
     //distribution.local.status
-    remote = {node: {
-        ip: '127.0.0.1',
-        port: 8080,
-      }, service: 'status', method: 'get'};
-    message = [
-      'nid', // configuration
-    ];
-    distribution.local.comm.send(message, remote, console.log)
+    // remote = {node: {
+    //     ip: '127.0.0.1',
+    //     port: 8080,
+    //   }, service: 'routes', method: 'get'};
+    // message = [
+    //   'status' // configuration
+    // ];
+    // distribution.local.comm.send(message, remote, console.log)
+
+    // RPC Test
+
+    let n = 0;
+
+    const addOne = () => {
+      return ++n;
+    };
+
+    let routes = distribution.local.routes;
+    const addOneRPC = distribution.util.wire.createRPC(
+      distribution.util.wire.toAsync(addOne));
+
+    const rpcService = {
+      addOneRPC: addOneRPC,
+    };
+
+      routes.put(rpcService, 'rpcService', (e, v) => {
+        routes.get('rpcService', (e, s) => {
+          //expect(e).toBeFalsy();
+          s.addOneRPC((e, v) => {
+            s.addOneRPC((e, v) => {
+              s.addOneRPC((e, v) => {
+                server.close();
+                expect(e).toBeFalsy();
+                expect(v).toBe(3);
+                done();
+              });
+            });
+          });
+        });
+      });
+
+
   });
 }
