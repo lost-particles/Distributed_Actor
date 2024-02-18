@@ -17,13 +17,5 @@ if (require.main === module) {
     /* Code that runs after your node has booted */
     //distribution.local.status.get('sid', console.log);
     //distribution.local.status
-    remote = {node: {
-        ip: '127.0.0.1',
-        port: 8080,
-      }, service: 'status', method: 'get'};
-    message = [
-      'nid', // configuration
-    ];
-    distribution.local.comm.send(message, remote, console.log)
   });
 }

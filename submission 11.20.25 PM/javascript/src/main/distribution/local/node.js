@@ -7,43 +7,11 @@
 
 
 const http = require('http');
-const serialization = require('../util/serialization');
-
 const start = function(started) {
   const server = http.createServer((req, res) => {
     /* Your server will be listening for PUT requests. */
 
     // Write some code...
-    // if(req.method === 'PUT' && req.url === '/remoteCall'){
-    //
-    // }
-
-    let reqData = '';
-    req.setEncoding('utf8');
-    req.on('data', (chunk) => {
-      reqData+=chunk;
-    });
-
-    const serviceCallback = (e, v) => {
-      res.end(serialization.serialize([e, v]));
-    };
-
-    req.on('end', () => {
-      reqObj = serialization.deserialize(reqData);
-      console.log("request received is : "+ reqObj);
-
-      distribution.local.routes.get(reqObj.remote.service, (e, service)=>{
-        if(e){
-          console.log(e);
-        }else {
-          reqObj.message.push(serviceCallback);
-          Reflect.apply(service[reqObj.remote.method], service, reqObj.message);
-        }
-      });
-
-
-    });
-
 
 
     /*
@@ -83,7 +51,9 @@ const start = function(started) {
       It will be called by the service with the result of it's call
       then it will serialize the result and send it back to the caller.
         */
-
+        const serviceCallback = (e, v) => {
+          res.end(serialization.serialize([e, v]));
+        };
 
         // Write some code...
 

@@ -58,49 +58,6 @@ const routes = {
 
 const comm = {
 
-  send(message, remote, cb=console.log){
-    try{
-
-      const putData = serialization.serialize({'remote':remote, 'message':message});
-
-      const options = {
-        hostname: remote['node']['ip'],
-        port: remote['node']['port'],
-        method: 'PUT',
-        path: '/routes/get',
-        agent: new http.Agent({ keepAlive: true }),
-        keepAlive: true,
-        headers: {
-          'Content-Type': 'application/json',
-          'Content-Length': Buffer.byteLength(putData),
-        }
-      };
-
-      const req = http.request(options, (res) => {
-
-        let resData = '';
-        res.setEncoding('utf8');
-        res.on('data', (chunk) => {
-          resData = resData + chunk;
-        });
-        res.on('end', () => {
-          resObj = serialization.deserialize(resData);
-          cb(...resObj);
-        });
-
-      });
-      req.on('error', (e) => {
-        cb(e);
-      });
-
-      req.write(putData);
-      req.end();
-
-    }catch (e) {
-      cb(e);
-    }
-  }
-
 };
 
 routes.put(status, 'status');
