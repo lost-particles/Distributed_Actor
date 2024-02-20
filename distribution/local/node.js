@@ -25,32 +25,30 @@ const start = function(started) {
     });
 
     const serviceCallback = (e, v) => {
-      distribution.local.msg_counts+=1;
+      distribution.local.msgCounts+=1;
       res.end(serialization.serialize([e, v]));
     };
 
     req.on('end', () => {
-      distribution.local.msg_counts+=1;
+      distribution.local.msgCounts+=1;
       reqObj = serialization.deserialize(reqData);
-      console.log("request received is : "+ reqData);
+      // console.log("request received is : "+ reqData);
 
       distribution.local.routes.get(reqObj.remote.service, (e, service)=>{
-        if(e){
+        if (e) {
           console.log(e);
-        }else {
+        } else {
           reqObj.message.push(serviceCallback);
           Reflect.apply(service[reqObj.remote.method], service, reqObj.message);
           // if(reqData.indexOf('rpc')){
           //   Reflect.apply(service, null, reqObj.message);
           // }else{
-          //   Reflect.apply(service[reqObj.remote.method], service, reqObj.message);
+          //   Reflect.apply(service[reqObj.remote.method],
+          // service, reqObj.message);
           // }
         }
       });
-
-
     });
-
 
 
     /*
@@ -80,20 +78,19 @@ const start = function(started) {
     // Write some code...
 
 
-      /* Here, you can handle the service requests. */
+    /* Here, you can handle the service requests. */
 
-      // Write some code...
+    // Write some code...
 
 
-        /*
+    /*
       Here, we provide a default callback which will be passed to services.
       It will be called by the service with the result of it's call
       then it will serialize the result and send it back to the caller.
         */
 
 
-        // Write some code...
-
+    // Write some code...
   });
 
 

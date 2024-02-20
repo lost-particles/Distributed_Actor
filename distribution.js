@@ -15,8 +15,8 @@ module.exports = distribution;
 if (require.main === module) {
   distribution.node.start((server) => {
     /* Code that runs after your node has booted */
-    //distribution.local.status.get('sid', console.log);
-    //distribution.local.status
+    // distribution.local.status.get('sid', console.log);
+    // distribution.local.status
     // remote = {node: {
     //     ip: '127.0.0.1',
     //     port: 8080,
@@ -29,17 +29,16 @@ if (require.main === module) {
     remote = {node: global.config, service: 'routes', method: 'get'};
     message = ['status'];
 
-
-    distribution.local.routes.get('status', (e,v)=>{
-      if(!e){
-        try{
-          statusObj = distribution.util.deserialize(distribution.util.serialize(v));
-        }catch (e) {
+    distribution.local.routes.get('status', (e, v) => {
+      if (!e) {
+        try {
+          statusObj =
+            distribution.util.deserialize(distribution.util.serialize(v));
+        } catch (e) {
           console.log(e);
         }
       }
     });
-
 
     distribution.local.comm.send(message, remote, console.log);
 
@@ -74,7 +73,5 @@ if (require.main === module) {
     //       });
     //     });
     //   });
-
-
   });
 }

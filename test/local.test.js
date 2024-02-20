@@ -137,7 +137,6 @@ test('(5 pts) comm: status.get()', (done) => {
 
   distribution.node.start((server) => {
     comm.send(message, remote, (e, v) => {
-      //console.log('new server address is : '+distribution.util.serialize(server));
       server.close();
       expect(e).toBeFalsy();
       expect(v).toBe(id.getNID(node));
@@ -163,8 +162,8 @@ test('(5 pts) RPC', (done) => {
   distribution.node.start((server) => {
     routes.put(rpcService, 'rpcService', (e, v) => {
       routes.get('rpcService', (e, s) => {
-        console.log("error is : "+e.toString());
-        console.log("service is : "+ distribution.util.serialize(s))
+        // console.log("error is : "+e.toString());
+        // console.log("service is : "+ distribution.util.serialize(s))
         expect(e).toBeFalsy();
         s.addOneRPC((e, v) => {
           s.addOneRPC((e, v) => {
