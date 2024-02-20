@@ -6,7 +6,7 @@
 ## Summary
 > Summarize your implementation, including key challenges you encountered
 
-My implementation comprises `3` software components, totaling `250 (approx)` lines of code. Key challenges included `1> During the testing of comm : routes.get(), inorder to get the service pobject from another node, i was facing issue with deserialization. I figured out that the format i was using for service object was not properly supported by the deserialization code given to us, so i changed the format and voila, test case passed.`.
+My implementation comprises `<number>` software components, totaling `<number>` lines of code. Key challenges included `<1, 2, 3 + how you solved them>`.
 
 ## Correctness & Performance Characterization
 > Describe how you characterized the correctness and performance of your implementation
@@ -21,4 +21,4 @@ My implementation comprises `3` software components, totaling `250 (approx)` lin
 ## Time to Complete
 > Roughly, how many hours did this milestone take you to complete?
 
-Hours: `48 hrs`
+Hours: `<time>`
