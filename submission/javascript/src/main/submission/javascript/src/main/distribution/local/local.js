@@ -18,7 +18,7 @@ comm     A message communication interface     send
 // let start = (srv) => console.log("running", n1)
 // http.createServer(resolve).listen(n1.port, n1.ip, start);
 
-node['counts'] = 0;
+let msg_counts = 0;
 
 const status = {
   get: function(id, cb= console.log){
@@ -27,6 +27,8 @@ const status = {
         cb(false, id_module.getNID(node));
       }else if (id==='sid'){
         cb(false, id_module.getSID(node));
+      }else if('counts'){
+        cb(false, msg_counts);
       }else {
         cb(false, node[id]);
       }
@@ -78,7 +80,7 @@ const comm = {
         }
       };
 
-      node['counts']+= 1;
+      msg_counts+= 1;
       const req = http.request(options, (res) => {
 
         let resData = '';
@@ -87,7 +89,7 @@ const comm = {
           resData = resData + chunk;
         });
         res.on('end', () => {
-          node['counts']+= 1;
+          msg_counts+= 1;
           resObj = serialization.deserialize(resData);
           cb(...resObj);
         });
@@ -125,4 +127,5 @@ module.exports = {
   comm: comm,
   rpcService: rpcService,
   rpcResolver: rpcResolver,
+  msg_counts: msg_counts
 };

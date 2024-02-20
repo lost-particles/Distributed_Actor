@@ -27,7 +27,7 @@ const status = {
         cb(false, id_module.getNID(node));
       }else if (id==='sid'){
         cb(false, id_module.getSID(node));
-      }else if('counts'){
+      }else if(id==='counts'){
         cb(false, msg_counts);
       }else {
         cb(false, node[id]);
