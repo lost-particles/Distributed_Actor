@@ -21,7 +21,7 @@ comm     A message communication interface     send
 node['counts'] = 0;
 
 const status = {
-  get(id, cb= console.log){
+  get: function(id, cb= console.log){
     try{
       if(id==='nid'){
         cb(false, id_module.getNID(node));
@@ -33,13 +33,13 @@ const status = {
     }catch (e) {
       cb(e);
     }
-  },
+  }
 };
 
 const routes = {
   route_map : {},
 
-  get(service_name, cb=console.log){
+  get: function(service_name, cb=console.log){
     try {
       cb(false, this.route_map[service_name]);
     }catch (e) {
@@ -47,7 +47,7 @@ const routes = {
     }
   },
 
-  put(service_obj, service_name, cb=console.log){
+  put: function(service_obj, service_name, cb=console.log){
     try {
       cb(false, this.route_map[service_name] = service_obj);
     }catch (e) {
@@ -58,7 +58,7 @@ const routes = {
 
 const comm = {
 
-  send(message, remote, cb=console.log){
+  send: function(message, remote, cb=console.log){
     try{
       if(!(message instanceof Array)){
         message = [message];
@@ -78,6 +78,7 @@ const comm = {
         }
       };
 
+      node['counts']+= 1;
       const req = http.request(options, (res) => {
 
         let resData = '';
@@ -86,6 +87,7 @@ const comm = {
           resData = resData + chunk;
         });
         res.on('end', () => {
+          node['counts']+= 1;
           resObj = serialization.deserialize(resData);
           cb(...resObj);
         });

@@ -26,37 +26,54 @@ if (require.main === module) {
     // ];
     // distribution.local.comm.send(message, remote, console.log)
 
+    remote = {node: global.config, service: 'routes', method: 'get'};
+    message = ['status'];
+
+
+    distribution.local.routes.get('status', (e,v)=>{
+      if(!e){
+        try{
+          statusObj = distribution.util.deserialize(distribution.util.serialize(v));
+        }catch (e) {
+          console.log(e);
+        }
+      }
+    });
+
+
+    distribution.local.comm.send(message, remote, console.log);
+
     // RPC Test
 
-    let n = 0;
-
-    const addOne = () => {
-      return ++n;
-    };
-
-    let routes = distribution.local.routes;
-    const addOneRPC = distribution.util.wire.createRPC(
-      distribution.util.wire.toAsync(addOne));
-
-    const rpcService = {
-      addOneRPC: addOneRPC,
-    };
-
-      routes.put(rpcService, 'rpcService', (e, v) => {
-        routes.get('rpcService', (e, s) => {
-          //expect(e).toBeFalsy();
-          s.addOneRPC((e, v) => {
-            s.addOneRPC((e, v) => {
-              s.addOneRPC((e, v) => {
-                server.close();
-                expect(e).toBeFalsy();
-                expect(v).toBe(3);
-                done();
-              });
-            });
-          });
-        });
-      });
+    // let n = 0;
+    //
+    // const addOne = () => {
+    //   return ++n;
+    // };
+    //
+    // let routes = distribution.local.routes;
+    // const addOneRPC = distribution.util.wire.createRPC(
+    //   distribution.util.wire.toAsync(addOne));
+    //
+    // const rpcService = {
+    //   addOneRPC: addOneRPC,
+    // };
+    //
+    //   routes.put(rpcService, 'rpcService', (e, v) => {
+    //     routes.get('rpcService', (e, s) => {
+    //       //expect(e).toBeFalsy();
+    //       s.addOneRPC((e, v) => {
+    //         s.addOneRPC((e, v) => {
+    //           s.addOneRPC((e, v) => {
+    //             server.close();
+    //             expect(e).toBeFalsy();
+    //             expect(v).toBe(3);
+    //             done();
+    //           });
+    //         });
+    //       });
+    //     });
+    //   });
 
 
   });

@@ -25,10 +25,12 @@ const start = function(started) {
     });
 
     const serviceCallback = (e, v) => {
+      node['counts']+=1;
       res.end(serialization.serialize([e, v]));
     };
 
     req.on('end', () => {
+      node['counts']+=1;
       reqObj = serialization.deserialize(reqData);
       console.log("request received is : "+ reqData);
 
