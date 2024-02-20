@@ -25,12 +25,12 @@ const start = function(started) {
     });
 
     const serviceCallback = (e, v) => {
-      global.config['counts']+=1;
+      node['counts']+=1;
       res.end(serialization.serialize([e, v]));
     };
 
     req.on('end', () => {
-      global.config['counts']+=1;
+      node['counts']+=1;
       reqObj = serialization.deserialize(reqData);
       console.log("request received is : "+ reqData);
 
