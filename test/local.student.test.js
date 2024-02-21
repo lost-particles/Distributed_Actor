@@ -64,6 +64,22 @@ test('(5 pts) comm: status.get(sid)', (done) => {
   });
 });
 
+test('(5 pts) comm: status.get(ip)', (done) => {
+  remote = {node: node, service: 'status', method: 'get'};
+  message = [
+    'ip', // configuration
+  ];
+
+  distribution.node.start((server) => {
+    comm.send(message, remote, (e, v) => {
+      server.close();
+      expect(e).toBeFalsy();
+      expect(v).toBe(node['ip']);
+      done();
+    });
+  });
+});
+
 test('(5 pts) comm: routes.get(comm)', (done) => {
   remote = {node: node, service: 'routes', method: 'get'};
   message = [
@@ -74,7 +90,8 @@ test('(5 pts) comm: routes.get(comm)', (done) => {
     comm.send(message, remote, (e, v) => {
       server.close();
       expect(e).toBeFalsy();
-      expect(distribution.util.serialize(v)).toEqual(distribution.util.serialize(distribution.local.comm));
+      expect(distribution.util.serialize(v)).
+          toEqual(distribution.util.serialize(distribution.local.comm));
       done();
     });
   });
