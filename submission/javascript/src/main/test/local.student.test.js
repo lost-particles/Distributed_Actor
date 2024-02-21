@@ -82,12 +82,14 @@ test('(5 pts) comm: routes.get(comm)', (done) => {
   });
 });
 
-test('(5 pts) RPC: Add the given number with a global variable', (done) => {
-  let n = 0;
-
+test('(5 pts) RPC: Fibonnaci Series', (done) => {
+  let p = 1;
+  let c = 1;
   const addAll = (x) => {
-    n+=x;
-    return n;
+    temp = c;
+    c= c+p;
+    p = temp;
+    return c;
   };
 
   const addAllRPC = distribution.util.wire.createRPC(
@@ -101,11 +103,15 @@ test('(5 pts) RPC: Add the given number with a global variable', (done) => {
     routes.put(rpcService, 'rpcService', (e, v) => {
       routes.get('rpcService', (e, s) => {
         expect(e).toBeFalsy();
-        s.addAllRPC(2, (e, v) => {
-          expect(e).toBeFalsy();
-          expect(v).toBe(2);
-          server.close();
-          done();
+        s.addOneRPC((e, v) => {
+          s.addOneRPC((e, v) => {
+            s.addOneRPC((e, v) => {
+              server.close();
+              expect(e).toBeFalsy();
+              expect(v).toBe(5);
+              done();
+            });
+          });
         });
       });
     });

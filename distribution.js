@@ -65,27 +65,27 @@ if (require.main === module) {
 
     // RPC Test 2
 
-    let n = 0;
-
-    const addAll = (x) => {
-      n+=x;
-      return n;
-    };
-
-    const addAllRPC = distribution.util.wire.createRPC(
-      distribution.util.wire.toAsync(addAll(n)));
-
-    const rpcService = {
-      addAllRPC: addAllRPC,
-    };
-
-    distribution.local.routes.put(rpcService, 'rpcService', (e, v) => {
-      distribution.local.routes.get('rpcService', (e, s) => {
-        s.addAllRPC(2, (e, v) => {
-          server.close();
-        });
-      });
-    });
+    // let n = 0;
+    //
+    // const addAll = () => {
+    //   n+=x;
+    //   return n;
+    // };
+    //
+    // const addAllRPC = distribution.util.wire.createRPC(
+    //   distribution.util.wire.toAsync(addAll(n)));
+    //
+    // const rpcService = {
+    //   addAllRPC: addAllRPC,
+    // };
+    //
+    // distribution.local.routes.put(rpcService, 'rpcService', (e, v) => {
+    //   distribution.local.routes.get('rpcService', (e, s) => {
+    //     s.addAllRPC(2, (e, v) => {
+    //       server.close();
+    //     });
+    //   });
+    // });
 
 
 
@@ -120,5 +120,41 @@ if (require.main === module) {
     //       });
     //     });
     //   });
+
+
+    let p = 1;
+    let c = 1;
+    const addAll = () => {
+      temp = c;
+      c= c+p;
+      p = temp;
+      return c;
+    };
+
+    const addAllRPC = distribution.util.wire.createRPC(
+      distribution.util.wire.toAsync(addAll));
+
+    const rpcService = {
+      addAllRPC: addAllRPC,
+    };
+
+      distribution.local.routes.put(rpcService, 'rpcService', (e, v) => {
+        distribution.local.routes.get('rpcService', (e, s) => {
+          console.log(e);
+          s.addAllRPC((e, v) => {
+            s.addAllRPC((e, v) => {
+              s.addAllRPC((e, v) => {
+                server.close();
+                console.log(v);
+              });
+            });
+          });
+        });
+      });
+
+
+
+
+
   });
 }

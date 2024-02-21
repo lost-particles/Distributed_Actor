@@ -44,22 +44,49 @@ if (require.main === module) {
 
 
 
-    remote = {node: global.config, service: 'routes', method: 'get'};
-    message = [
-      'comm', // configuration
-    ];
+    // remote = {node: global.config, service: 'routes', method: 'get'};
+    // message = [
+    //   'comm', // configuration
+    // ];
+    //
+    // //commObj = distribution.local.routes.get('comm');
+    // distribution.local.comm.send(message, remote, (e, v) => {
+    //   console.log("Inside student test case routes.get(comm) : "+ distribution.util.serialize(v));
+    //   //console.log("Comm serialization : "+ distribution.util.serialize());
+    //   server.close();
+    //   if(distribution.local.comm===v){
+    //     console.log("Match Found");
+    //   }else{
+    //     console.log("Match not found");
+    //   }
+    // });
 
-    //commObj = distribution.local.routes.get('comm');
-    distribution.local.comm.send(message, remote, (e, v) => {
-      console.log("Inside student test case routes.get(comm) : "+ distribution.util.serialize(v));
-      //console.log("Comm serialization : "+ distribution.util.serialize());
-      server.close();
-      if(distribution.local.comm===v){
-        console.log("Match Found");
-      }else{
-        console.log("Match not found");
-      }
+
+
+    // RPC Test 2
+
+    let n = 0;
+
+    const addAll = (x) => {
+      n+=x;
+      return n;
+    };
+
+    const addAllRPC = distribution.util.wire.createRPC(
+      distribution.util.wire.toAsync(addAll(n)));
+
+    const rpcService = {
+      addAllRPC: addAllRPC,
+    };
+
+    distribution.local.routes.put(rpcService, 'rpcService', (e, v) => {
+      distribution.local.routes.get('rpcService', (e, s) => {
+        s.addAllRPC(2, (e, v) => {
+          server.close();
+        });
+      });
     });
+
 
 
     // RPC Test
