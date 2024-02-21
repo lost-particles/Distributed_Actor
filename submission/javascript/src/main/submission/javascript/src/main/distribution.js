@@ -26,41 +26,21 @@ if (require.main === module) {
     // ];
     // distribution.local.comm.send(message, remote, console.log)
 
-    // remote = {node: global.config, service: 'routes', method: 'get'};
-    // message = ['status'];
-    //
-    // distribution.local.routes.get('status', (e, v) => {
-    //   if (!e) {
-    //     try {
-    //       statusObj =
-    //         distribution.util.deserialize(distribution.util.serialize(v));
-    //     } catch (e) {
-    //       console.log(e);
-    //     }
-    //   }
-    // });
-    //
-    // distribution.local.comm.send(message, remote, console.log);
-
-
-
     remote = {node: global.config, service: 'routes', method: 'get'};
-    message = [
-      'comm', // configuration
-    ];
+    message = ['status'];
 
-    //commObj = distribution.local.routes.get('comm');
-    distribution.local.comm.send(message, remote, (e, v) => {
-      console.log("Inside student test case routes.get(comm) : "+ distribution.util.serialize(v));
-      //console.log("Comm serialization : "+ distribution.util.serialize());
-      server.close();
-      if(distribution.local.comm===v){
-        console.log("Match Found");
-      }else{
-        console.log("Match not found");
+    distribution.local.routes.get('status', (e, v) => {
+      if (!e) {
+        try {
+          statusObj =
+            distribution.util.deserialize(distribution.util.serialize(v));
+        } catch (e) {
+          console.log(e);
+        }
       }
     });
 
+    distribution.local.comm.send(message, remote, console.log);
 
     // RPC Test
 
