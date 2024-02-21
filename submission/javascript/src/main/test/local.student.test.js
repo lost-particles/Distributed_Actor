@@ -143,36 +143,36 @@ test('(0 pts) sample test', () => {
 });
 
 
-let distribution;
-let local;
-
-let routes;
-let comm;
-
-let id;
-let node;
-
-let lastPort = 8099;
-
-beforeEach(() => {
-  jest.resetModules();
-
-  global.config = {
-    ip: '127.0.0.1',
-    port: lastPort++, // Avoid port conflicts
-  };
-
-  distribution = require('../distribution');
-  local = distribution.local;
-
-  status = local.status;
-  routes = local.routes;
-  comm = local.comm;
-  rpcService = local.rpcService;
-  rpcResolver = local.rpcResolver;
-
-  id = distribution.util.id;
-  wire = distribution.util.wire;
-
-  node = global.config;
-});
+// let distribution;
+// let local;
+//
+// let routes;
+// let comm;
+//
+// let id;
+// let node;
+//
+// let lastPort = 8099;
+//
+// beforeEach(() => {
+//   jest.resetModules();
+//
+//   global.config = {
+//     ip: '127.0.0.1',
+//     port: lastPort++, // Avoid port conflicts
+//   };
+//
+//   distribution = require('../distribution');
+//   local = distribution.local;
+//
+//   status = local.status;
+//   routes = local.routes;
+//   comm = local.comm;
+//   rpcService = local.rpcService;
+//   rpcResolver = local.rpcResolver;
+//
+//   id = distribution.util.id;
+//   wire = distribution.util.wire;
+//
+//   node = global.config;
+// });
