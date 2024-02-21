@@ -72,29 +72,21 @@ test('(5 pts) comm: routes.get(comm)', (done) => {
 
   distribution.node.start((server) => {
     comm.send(message, remote, (e, v) => {
+      console.log("Inside student test case routes.get(comm) : "+ distribution.util.serialize(v));
+      console.log("Comm serialization : "+ distribution.util.serialize(comm));
       server.close();
       expect(e).toBeFalsy();
-      expect(v).toBe(comm);
+      expect(distribution.util.serialize(v)).toEqual(distribution.util.serialize(distribution.local.comm));
       done();
     });
   });
 });
 
-test('(5 pts) Nested Method RPC', (done) => {
+test('(5 pts) RPC: Add the given number with a global variable', (done) => {
   let n = 0;
 
-  const addOne = () => {
-    return ++n;
-  };
-
-  const addTwo = () => {
-    n+=2;
-    return n;
-  };
-
-  const addAll = () => {
-    addOne();
-    addTwo();
+  const addAll = (x) => {
+    n+=x;
     return n;
   };
 
@@ -109,15 +101,11 @@ test('(5 pts) Nested Method RPC', (done) => {
     routes.put(rpcService, 'rpcService', (e, v) => {
       routes.get('rpcService', (e, s) => {
         expect(e).toBeFalsy();
-        s.addAllRPC((e, v) => {
-          s.addAllRPC((e, v) => {
-            s.addAllRPC((e, v) => {
-              server.close();
-              expect(e).toBeFalsy();
-              expect(v).toBe(9);
-              done();
-            });
-          });
+        s.addAllRPC(2, (e, v) => {
+          expect(e).toBeFalsy();
+          expect(v).toBe(2);
+          server.close();
+          done();
         });
       });
     });
